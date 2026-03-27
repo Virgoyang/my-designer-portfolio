@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { Canvas } from '@react-three/fiber';
 import { Float, MeshDistortMaterial, Sphere } from '@react-three/drei';
@@ -40,7 +40,7 @@ const DesignerPortfolio = () => {
         <div className="text-xl font-bold tracking-tighter uppercase italic">Digital Alchemy</div>
         <div className="flex gap-12 text-xs tracking-[0.2em] uppercase font-light">
           {['Home', 'Portfolio', 'About', 'Contact'].map(item => (
-            <a key={item} className="hover:text-[#FF0055] transition-colors cursor-pointer">{item}</a>
+            <a href={`#${item.toLowerCase()}`} key={item} className="hover:text-[#FF0055] transition-colors cursor-pointer">{item}</a>
           ))}
         </div>
         <button className="bg-[#FF0055] px-6 py-2 text-xs uppercase tracking-widest hover:scale-105 transition-transform active:scale-95">
