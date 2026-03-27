@@ -1,21 +1,23 @@
-import React from 'react'; // 删除了未使用的 Suspense
+import React from 'react';
 import { motion } from 'framer-motion';
 import { Canvas } from '@react-three/fiber';
 import { Float, MeshDistortMaterial, Sphere } from '@react-three/drei';
 
+// 确保 3D 容器有明确的宽高
 const LiquidObject = () => (
-  <div className="absolute top-0 right-0 w-full h-screen -z-10 opacity-50">
-    <Canvas>
-      <ambientLight intensity={0.5} />
-      <directionalLight position={[10, 10, 5]} intensity={1} />
-      <Float speed={2} rotationIntensity={1.5} floatIntensity={2}>
-        <Sphere args={[1, 100, 200]} scale={1.4}>
+  <div style={{ position: 'absolute', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 0 }}>
+    <Canvas camera={{ position: [0, 0, 5] }}>
+      <ambientLight intensity={1.5} />
+      <pointLight position={[10, 10, 10]} intensity={2} />
+      <Float speed={3} rotationIntensity={2} floatIntensity={2}>
+        <Sphere args={[1.2, 100, 200]} scale={1.5}>
           <MeshDistortMaterial
-            color="#A0A0A0"
-            roughness={0.1}
+            color="#444"
+            emissive="#111"
+            roughness={0}
             metalness={1}
-            distort={0.4}
-            speed={3}
+            distort={0.5}
+            speed={5}
           />
         </Sphere>
       </Float>
@@ -23,48 +25,39 @@ const LiquidObject = () => (
   </div>
 );
 
-const DesignerPortfolio = () => {
-  const fadeInUp = {
-    initial: { opacity: 0, y: 60 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.8, ease: [0.6, -0.05, 0.01, 0.99] }
-  };
-
-  const navItems = ['Home', 'Portfolio', 'About', 'Contact'];
-
+export default function App() {
   return (
-    <div className="bg-[#0A0A0B] text-[#E0E0E0] min-h-screen selection:bg-[#00FFF0] selection:text-black overflow-x-hidden font-sans">
+    <div style={{ backgroundColor: '#050505', color: 'white', minHeight: '100vh', width: '100%', margin: 0, padding: 0, overflow: 'hidden', fontFamily: 'sans-serif' }}>
+      
       <LiquidObject />
 
-      <nav className="flex justify-between items-center px-6 md:px-12 py-8 fixed w-full z-50 backdrop-blur-sm">
-        <div className="text-xl font-bold tracking-tighter uppercase italic">Digital Alchemy</div>
-        <div className="hidden md:flex gap-12 text-xs tracking-[0.2em] uppercase font-light">
-          {navItems.map(item => (
-            // 修复了 href 缺失的问题，现在符合无障碍标准
-            <a href={`#${item.toLowerCase()}`} key={item} className="hover:text-[#FF0055] transition-colors cursor-pointer">
-              {item}
-            </a>
-          ))}
+      {/* 顶部导航 */}
+      <nav style={{ position: 'fixed', top: 0, width: '100%', display: 'flex', justifyContent: 'space-between', padding: '40px 60px', zIndex: 100, boxSizing: 'border-box' }}>
+        <div style={{ fontWeight: 900, letterSpacing: '2px' }}>DIGITAL ALCHEMY</div>
+        <div style={{ display: 'flex', gap: '40px', fontSize: '12px' }}>
+          <a href="#work" style={{ color: 'white', textDecoration: 'none' }}>WORK</a>
+          <a href="#about" style={{ color: 'white', textDecoration: 'none' }}>ABOUT</a>
+          <button style={{ backgroundColor: '#FF0055', border: 'none', color: 'white', padding: '8px 20px', cursor: 'pointer' }}>INITIATE</button>
         </div>
-        <button className="bg-[#FF0055] px-6 py-2 text-[10px] uppercase tracking-widest hover:scale-105 transition-transform">
-          Initiate
-        </button>
       </nav>
 
-      <section className="relative h-screen flex flex-col justify-center px-12 md:px-24">
-        <motion.div {...fadeInUp}>
-          <p className="text-[#00FFF0] text-[10px] tracking-[0.5em] mb-4 uppercase">[ Architect of Digital Realms ]</p>
-          <h1 className="text-5xl md:text-8xl font-black leading-tight uppercase">
-            Designer<br />
-            <span className="text-transparent stroke-text" style={{ WebkitTextStroke: '1px rgba(255,255,255,0.3)' }}>Portfolio</span>
+      {/* 主标题区 */}
+      <div style={{ position: 'relative', zIndex: 10, height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingLeft: '10%' }}>
+        <motion.div
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 1 }}
+        >
+          <h1 style={{ fontSize: '10vw', margin: 0, lineHeight: 0.9, fontWeight: 900 }}>
+            DESIGNER<br />
+            <span style={{ color: 'transparent', WebkitTextStroke: '1px rgba(255,255,255,0.5)' }}>PORTFOLIO</span>
           </h1>
-          <p className="max-w-md mt-8 text-gray-500 text-sm leading-relaxed font-light">
-            融合游戏交互美学与奢华视觉体验，诠释不拘一格的数字艺术创作。
+          <p style={{ color: '#00FFF0', letterSpacing: '8px', marginTop: '20px', fontSize: '12px' }}>
+            [ ARCHITECT OF DIGITAL REALMS ]
           </p>
         </motion.div>
-      </section>
+      </div>
+
     </div>
   );
-};
-
-export default DesignerPortfolio;
+}
